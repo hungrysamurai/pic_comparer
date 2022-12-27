@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div class="comparer-container">
+      <div class="image1"></div>
+      <div class="image2"></div>
+
+      <input
+        type="range"
+        step="0.01"
+        value="50"
+        id="range"
+        class="range"
+        max="99"
+        min="1"
+      />
+      <div class="handler"></div>
+    </div>
+
+    <div class="comparer-upload-container">
+      <input
+        type="file"
+        id="comparer-upload-1"
+        accept="image/jpeg, image/png, image/jpg"
+        hidden
+      />
+      <input
+        type="file"
+        id="comparer-upload-2"
+        accept="image/jpeg, image/png, image/jpg"
+        hidden
+      />
+      <label
+        for="comparer-upload-1"
+        id="upload-btn-1"
+        class="comparer-btn empty"
+        >Изображение #1</label
+      >
+      <label
+        for="comparer-upload-2"
+        id="upload-btn-2"
+        class="comparer-btn empty"
+        >Изображение #2</label
+      >
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

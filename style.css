@@ -1,0 +1,148 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.comparer-container {
+  width: 700px;
+  max-width: 90%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  margin: 1rem;
+  -webkit-box-shadow: -1px 23px 49px -3px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: -1px 23px 49px -3px rgba(34, 60, 80, 0.2);
+  box-shadow: -1px 23px 49px -3px rgba(34, 60, 80, 0.4);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.image1 {
+  background-image: url(./1.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0%;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image2 {
+  background-image: url(./2.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0%;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+}
+
+.range {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.handler {
+  width: 1rem;
+  height: 2rem;
+  background-color: #fff;
+  position: absolute;
+  border-radius: 15px;
+  pointer-events: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.5);
+}
+
+.comparer-upload-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  width: 50%;
+}
+
+.comparer-btn {
+  padding: 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin: 0.8rem;
+  transition: all 0.1s ease;
+  text-align: center;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.comparer-btn.empty {
+  color: gray;
+  border: 2px solid gray;
+}
+
+.comparer-btn.empty:hover {
+  background-color: rgb(90, 90, 90);
+  color: white;
+}
+
+.comparer-btn.full {
+  color: #fff;
+  background-color: rgb(3, 178, 3);
+  border: 2px solid rgb(3, 178, 3);
+}
+
+.comparer-btn.full:hover {
+  background-color: rgb(4, 142, 4);
+  border: 2px solid rgb(4, 142, 4);
+  color: white;
+}
+
+.comparer-btn:focus {
+  outline: none;
+}
+
+.comparer-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
+}
+/* 
+@media (max-width: 768px) {
+  .comparer-container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .comparer-container {
+    width: 75%;
+    height: 75%;
+  }
+}
+
+@media (min-width: 1920px) {
+  .comparer-container {
+    max-width: 45%;
+    max-height: 45%;
+  }
+} */ ;
