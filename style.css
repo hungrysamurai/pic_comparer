@@ -1,3 +1,10 @@
+:root {
+  --empty: rgb(128, 128, 128);
+  --empty-light: rgb(90, 90, 90);
+  --full: rgb(5, 218, 136);
+  --full-dark: rgb(8, 150, 95);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -12,7 +19,7 @@ body {
 }
 
 .comparer-container {
-  width: 700px;
+  width: 650px;
   max-width: 90%;
   height: auto;
   aspect-ratio: 1 / 1;
@@ -25,8 +32,8 @@ body {
   overflow: hidden;
 }
 
-.image1 {
-  background-image: url(./1.jpg);
+.comparer-bg {
+  background-image: url(./bg.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   object-fit: cover;
@@ -39,8 +46,8 @@ body {
   height: 100%;
 }
 
-.image2 {
-  background-image: url(./2.jpg);
+.comparer-fg {
+  background-image: url(./fg.jpg);
   background-size: cover;
   background-repeat: no-repeat;
   object-fit: cover;
@@ -95,24 +102,24 @@ body {
 }
 
 .comparer-btn.empty {
-  color: gray;
-  border: 2px solid gray;
+  color: var(--empty);
+  border: 2px solid var(--empty);
 }
 
 .comparer-btn.empty:hover {
-  background-color: rgb(90, 90, 90);
+  background-color: var(--empty-light);
   color: white;
 }
 
 .comparer-btn.full {
   color: #fff;
-  background-color: rgb(3, 178, 3);
-  border: 2px solid rgb(3, 178, 3);
+  background-color: var(--full);
+  border: 2px solid var(--full);
 }
 
 .comparer-btn.full:hover {
-  background-color: rgb(4, 142, 4);
-  border: 2px solid rgb(4, 142, 4);
+  background-color: var(--full-dark);
+  border: 2px solid var(--full-dark);
   color: white;
 }
 
@@ -124,25 +131,3 @@ body {
   transform: translateY(3px);
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.4);
 }
-/* 
-@media (max-width: 768px) {
-  .comparer-container {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-  }
-}
-
-@media (min-width: 768px) {
-  .comparer-container {
-    width: 75%;
-    height: 75%;
-  }
-}
-
-@media (min-width: 1920px) {
-  .comparer-container {
-    max-width: 45%;
-    max-height: 45%;
-  }
-} */ ;

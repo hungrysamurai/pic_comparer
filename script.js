@@ -1,7 +1,7 @@
 const comparerContainer = document.querySelector(".comparer-container");
 const range = document.querySelector("#range");
-const topImage = document.querySelector(".image2");
-const bottomImage = document.querySelector(".image1");
+const fgImage = document.querySelector(".comparer-fg");
+const bgImage = document.querySelector(".comparer-bg");
 const handler = document.querySelector(".handler");
 const imageInput1 = document.querySelector("#comparer-upload-1");
 const imageInput2 = document.querySelector("#comparer-upload-2");
@@ -11,19 +11,19 @@ const uploadBtn2 = document.querySelector('#upload-btn-2');
 range.addEventListener("input", (e) => {
   const position = e.target.value;
   handler.style.left = `${position}%`;
-  topImage.style.width = `${position}%`;
+  fgImage.style.width = `${position}%`;
 });
 
 imageInput1.addEventListener("change", (e) => {
   uploadBtn1.classList.remove('empty');
   uploadBtn1.classList.add('full');
-  replaceImage(topImage, e.target, true);
+  replaceImage(fgImage, e.target, true);
 });
 
 imageInput2.addEventListener("change", (e) => {
   uploadBtn2.classList.remove('empty');
   uploadBtn2.classList.add('full');
-  replaceImage(bottomImage, e.target, false);
+  replaceImage(bgImage, e.target, false);
 });
 
 function replaceImage(el, context, mainImg) {
