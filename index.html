@@ -39,17 +39,28 @@
         hidden
       />
       <label
-        for="comparer-upload-1"
-        id="upload-btn-1"
-        class="comparer-btn empty"
-        >Изображение #1</label
-      >
-      <label
         for="comparer-upload-2"
         id="upload-btn-2"
         class="comparer-btn empty"
-        >Изображение #2</label
+        >Background</label
       >
+      <label
+        for="comparer-upload-1"
+        id="upload-btn-1"
+        class="comparer-btn empty"
+        >Foreground</label
+      >
+    </div>
+
+    <div id="drop-area">
+      <div class="drop-inner">Drop some files to compare</div>
+      <input
+        type="file"
+        id="fileElem"
+        multiple
+        accept="image/*"
+        onchange="handleFiles(this.files)"
+      />
     </div>
 
     <script src="./script.js"></script>
