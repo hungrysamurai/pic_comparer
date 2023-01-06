@@ -1,68 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css" />
-    <title>Document</title>
-  </head>
 
-  <body>
-    <div class="comparer-container">
-      <div class="comparer-bg"></div>
-      <div class="comparer-fg"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./pic_comparer/style.css" />
+  <title>Document</title>
+</head>
 
-      <input
-        type="range"
-        step="0.01"
-        value="50"
-        id="range"
-        class="range"
-        max="100"
-        min="0"
-      />
-      <div class="handler"></div>
-    </div>
+<body>
+  <div class="comparer-container">
+    <div class="comparer-bg"></div>
+    <div class="comparer-fg"></div>
 
-    <div class="comparer-upload-container">
-      <input
-        type="file"
-        id="comparer-upload-1"
-        accept="image/jpeg, image/png, image/jpg"
-        hidden
-      />
-      <input
-        type="file"
-        id="comparer-upload-2"
-        accept="image/jpeg, image/png, image/jpg"
-        hidden
-      />
-      <label
-        for="comparer-upload-2"
-        id="upload-btn-2"
-        class="comparer-btn empty"
-        >Background</label
-      >
-      <label
-        for="comparer-upload-1"
-        id="upload-btn-1"
-        class="comparer-btn empty"
-        >Foreground</label
-      >
-    </div>
+    <input type="range" step="0.01" value="50" id="range" class="range" max="100" min="0" />
+    <div class="handler"></div>
+  </div>
 
-    <div id="drop-area">
-      <div class="drop-inner">Drop some files to compare</div>
-      <input
-        type="file"
-        id="fileElem"
-        multiple
-        accept="image/*"
-        onchange="handleFiles(this.files)"
-      />
-    </div>
+  <div class="comparer-upload-container">
+    <input type="file" id="comparer-upload-1" accept="image/jpeg, image/png, image/jpg" hidden />
+    <input type="file" id="comparer-upload-2" accept="image/jpeg, image/png, image/jpg" hidden />
+    <label for="comparer-upload-2" id="upload-btn-2" class="comparer-btn empty">Background</label>
+    <label for="comparer-upload-1" id="upload-btn-1" class="comparer-btn empty">Foreground</label>
+  </div>
 
-    <script src="./script.js"></script>
-  </body>
+  <div id="drop-area">
+    <div class="drop-inner">Drop some files to compare</div>
+    <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)" />
+  </div>
+
+  <script src="./pic_comparer/script.js"></script>
+</body>
+
 </html>
