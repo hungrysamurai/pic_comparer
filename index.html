@@ -4,14 +4,30 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./pic_comparer/style.css" />
-    <title>Document</title>
+    <link rel="stylesheet" href="./pic_comparer/comparer.css" />
+    <title>Pic Comparer</title>
   </head>
-
   <body>
+    <h2>Init with Upload Buttons and Drag'n'Drop Area:</h2>
     <div class="parent-container"></div>
+    <h2>Init with provided images links:</h2>
     <div class="parent-container2"></div>
+    <script src="./pic_comparer/comparer.js"></script>
+    <script>
+      const comparer1 = new Comparer(
+        document.querySelector(".parent-container"),
+        { enableDragDrop: true, enableUpload: true }
+      );
 
-    <script src="./pic_comparer/script.js"></script>
+      const comparer2 = new Comparer(
+        document.querySelector(".parent-container2"),
+        {
+          bgLink:
+            "https://work.ekry.ru/wp-content/uploads/2021/02/person_2_1.jpg",
+          fgLink:
+            "https://work.ekry.ru/wp-content/uploads/2021/02/person_2.jpg",
+        }
+      );
+    </script>
   </body>
 </html>
