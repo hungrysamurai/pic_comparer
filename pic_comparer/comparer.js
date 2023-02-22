@@ -1,30 +1,29 @@
 class Comparer {
   constructor(parentContainer, { enableUpload, enableDragDrop, bgLink, fgLink }) {
-    this.id = Math.floor(Math.random() * 1000);
+    this.id = Math.floor(Math.random() * 10000);
     this.parentContainer = parentContainer;
 
     // Init DOM elements
     this.initDOMElements(enableUpload, enableDragDrop);
 
-    this.comparerContainer = parentContainer.querySelector(".comparer-container");
-    this.range = parentContainer.querySelector("#range");
-    this.fgImage = parentContainer.querySelector(".comparer-fg");
-    this.bgImage = parentContainer.querySelector(".comparer-bg");
-    this.handler = parentContainer.querySelector(".handler");
+    this.comparerContainer = this.parentContainer.querySelector(".comparer-container");
+    this.range = this.parentContainer.querySelector(`#comparer-range-${this.id}`);
+    this.fgImage = this.parentContainer.querySelector(".comparer-fg");
+    this.bgImage = this.parentContainer.querySelector(".comparer-bg");
+    this.handler = this.parentContainer.querySelector(".comparer-handler");
 
     // Init upload buttons
     if (enableUpload) {
-      this.imageInput1 = parentContainer.querySelector(`#comparer-upload-${this.id}`);
-      this.imageInput2 = parentContainer.querySelector(`#comparer-upload-${this.id}-2`);
-      this.uploadBtn1 = parentContainer.querySelector('#upload-btn-1');
-      this.uploadBtn2 = parentContainer.querySelector('#upload-btn-2');
+      this.imageInput1 = this.parentContainer.querySelector(`#comparer-upload-${this.id}`);
+      this.imageInput2 = this.parentContainer.querySelector(`#comparer-upload-${this.id}-2`);
+      this.uploadBtn1 = this.parentContainer.querySelector(`#comparer-upload-btn-1-${this.id}`);
+      this.uploadBtn2 = this.parentContainer.querySelector(`#comparer-upload-btn-2-${this.id}`);
     }
 
     // Init Drag'n'Drop Area
     if (enableDragDrop) {
-      this.dropArea = parentContainer.querySelector('.drop-area');
-      this.dropInput = parentContainer.querySelector('#fileElem');
-      this.dropInner = parentContainer.querySelector('.drop-inner');
+      this.dropArea = this.parentContainer.querySelector('.comparer-drop-area');
+      this.dropInner = this.parentContainer.querySelector('.comparer-drop-inner');
 
       // Prevent defaults for drag events
       ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -86,12 +85,12 @@ class Comparer {
           type="range"
           step="0.01"
           value="50"
-          id="range"
-          class="range"
+          id="comparer-range-${this.id}"
+          class="comparer-range"
           max="100"
           min="0"
         />
-        <div class="handler"></div>
+        <div class="comparer-handler"></div>
     `;
     this.parentContainer.append(comparerContainer);
 
@@ -114,13 +113,13 @@ class Comparer {
         />
         <label
           for="comparer-upload-${this.id}-2"
-          id="upload-btn-2"
+          id="comparer-upload-btn-2-${this.id}"
           class="comparer-btn empty"
           >Background</label
         >
         <label
           for="comparer-upload-${this.id}"
-          id="upload-btn-1"
+          id="comparer-upload-btn-1-${this.id}"
           class="comparer-btn empty"
           >Foreground</label
         >
@@ -131,16 +130,9 @@ class Comparer {
     // Add Drag'n'Drop area
     if (dropArea) {
       const dropContainer = document.createElement('div');
-      dropContainer.classList.add('drop-area');
+      dropContainer.classList.add('comparer-drop-area');
       dropContainer.innerHTML = `
-      <div class="drop-inner">Drop some images to compare</div>
-        <input
-          type="file"
-          id="fileElem"
-          multiple
-          accept="image/*"
-          onchange="handleFiles(this.files)"
-        />
+      <div class="comparer-drop-inner">Drop some images to compare</div>
 `;
       this.parentContainer.append(dropContainer);
     }
@@ -231,7 +223,6 @@ class Comparer {
     this.range.addEventListener("input", (e) => {
       const position = e.target.value;
       const px = Math.floor((parseInt(getComputedStyle(this.comparerContainer).width)) / 100 * position);
-      console.log(Math.floor(px));
       this.handler.style.left = `${position}%`;
       this.fgImage.style.width = `${px}px`;
       // this.state.background = true;
