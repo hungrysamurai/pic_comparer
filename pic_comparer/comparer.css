@@ -22,13 +22,12 @@ body {
 }
 
 h2 {
-  margin: 2rem;
-  font-size: 16px;
+  margin: 1rem;
   text-align: center;
 }
 
 .parent-container {
-  width: 600px;
+  width: 80vw;
   max-width: 100%;
   display: flex;
   align-items: center;
@@ -37,7 +36,7 @@ h2 {
 }
 
 .parent-container2 {
-  width: 900px;
+  width: 80vw;
   max-width: 100%;
   display: flex;
   align-items: center;
