@@ -4,15 +4,57 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./pic_comparer/comparer.css" />
+    <link rel="stylesheet" href="./dist/comparer.css" />
     <title>Pic Comparer</title>
   </head>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap");
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Montserrat", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    h2 {
+      margin: 1rem;
+      text-align: center;
+    }
+
+    .parent-container {
+      width: 800px;
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .parent-container2 {
+      width: 800px;
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-bottom: 10%;
+    }
+  </style>
+
   <body>
     <h2>Init with Upload Buttons and Drag'n'Drop Area:</h2>
     <div class="parent-container"></div>
     <h2>Init with provided images links:</h2>
     <div class="parent-container2"></div>
-    <script src="./pic_comparer/comparer.js"></script>
+    <script src="./dist/comparer.js"></script>
     <script>
       const comparer1 = new Comparer(
         document.querySelector(".parent-container"),

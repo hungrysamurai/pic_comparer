@@ -61,7 +61,7 @@ class Comparer {
     this.bgImage = this.comparerContainer.querySelector(".comparer-bg");
     this.handler = this.comparerContainer.querySelector(".comparer-handler");
 
-    this.parentContainer.append(this.comparerContainer);
+    this.parentContainer.appendChild(this.comparerContainer);
 
     // Init upload Buttons
     if (uploadArea) {
@@ -81,18 +81,17 @@ class Comparer {
           accept="image/jpeg, image/png, image/jpg"
           hidden
         />
-
-        <label
-          for="comparer-upload-${this.#id}-foreground"
-          id="comparer-upload-btn-foreground-${this.#id}"
-          class="comparer-btn empty"
-          >Background</label
-        >
         <label
           for="comparer-upload-${this.#id}-background"
           id="comparer-upload-btn-background-${this.#id}"
           class="comparer-btn empty"
           >Foreground</label
+        >
+        <label
+          for="comparer-upload-${this.#id}-foreground"
+          id="comparer-upload-btn-foreground-${this.#id}"
+          class="comparer-btn empty"
+          >Background</label
         >
     `;
 
@@ -101,7 +100,7 @@ class Comparer {
       this.uploadBtnBG = uploadContainer.querySelector(`#comparer-upload-btn-background-${this.#id}`);
       this.uploadBtnFG = uploadContainer.querySelector(`#comparer-upload-btn-foreground-${this.#id}`);
 
-      this.parentContainer.append(uploadContainer);
+      this.parentContainer.appendChild(uploadContainer);
     }
 
     // Add Drag'n'Drop area
@@ -113,9 +112,9 @@ class Comparer {
       this.dropInner.classList.add('comparer-drop-inner');
       this.dropInner.textContent = 'Drop some images to compare';
 
-      this.dropArea.append(this.dropInner)
+      this.dropArea.appendChild(this.dropInner)
 
-      this.parentContainer.append(this.dropArea);
+      this.parentContainer.appendChild(this.dropArea);
 
       // Prevent defaults for drag events
 
