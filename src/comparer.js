@@ -32,7 +32,7 @@ class Comparer {
     { enableUpload, enableDragDrop, bgLink, fgLink }
   ) {
     /**
-     * @property {HTMLElement} parentContainer is parent DOM element for Comparer
+     * @property {HTMLElement} parentContainer - is parent DOM element for Comparer
      */
     this.parentContainer = parentContainer;
 
@@ -58,7 +58,7 @@ class Comparer {
   }
 
   /**
-   * @property {Function} initDOMElements init Comparer in DOM
+   * @property {Function} initDOMElements - init Comparer in DOM
    * @param {boolean} uploadArea - creates upload buttons if true
    * @param {boolean} dropArea - creates drag and drop area if true
    * @returns {void}
@@ -180,9 +180,9 @@ class Comparer {
 
   /**
    *
-   * @property {Function} addEvents adds events listeners to Compparer
-   * @param {boolean} buttons
-   * @param {boolean} dragDrop
+   * @property {Function} addEvents - adds events listeners to Compparer
+   * @param {boolean} buttons - if true - adds buttons events
+   * @param {boolean} dragDrop - if true adds upload area events
    * @returns {void}
    */
   addEvents(buttons, dragDrop) {
@@ -258,7 +258,7 @@ class Comparer {
   }
 
   /**
-   * @property {Function} generatePreview displays uploaded image in DOM
+   * @property {Function} generatePreview - displays uploaded image in DOM
    * @param {HTMLElement} el - DOM element, background or foreground div
    * @param {File} file - uploading file
    * @param {boolean} background - if true - this is background element that sets aspect ratio for whole Comparer
@@ -286,7 +286,7 @@ class Comparer {
   }
 
   /**
-   * @property {Function} switchClass swap classes on element
+   * @property {Function} switchClass - swap classes on element
    * @param {HTMLElement} el - element on whitch class will be switched
    * @param {string} class1 - class to remove
    * @param {string} class2 - class to add
@@ -299,7 +299,7 @@ class Comparer {
 
   /**
    * @property {Function} preventDefaults prevent default behaviour on DOM element
-   * @param {Object} e -event object that contains target element
+   * @param {Object} e - event object that contains target element
    * @returns {void}
    */
   preventDefaults(e) {
@@ -308,7 +308,7 @@ class Comparer {
   }
 
   /**
-   * @property {Function} highlight adds class 'highlight' on provided element
+   * @property {Function} highlight - adds class 'highlight' on provided element
    * @param {HTMLElement} el - element
    * @returns {void}
    */
