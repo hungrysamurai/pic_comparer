@@ -4,7 +4,9 @@
   "description": "Pictures comparer ganerator.",
   "main": "src/comparer.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "bundle-js": "npx gulp js",
+    "bundle-css": "npx gulp css",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -23,10 +25,10 @@
   "devDependencies": {
     "@babel/core": "^7.21.3",
     "@babel/preset-env": "^7.20.2",
+    "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
-    "gulp-cssnano": "^2.1.3"
+    "gulp-cssnano": "^2.1.3",
+    "jsdoc": "^4.0.2"
   },
-  "dependencies": {
-    "gulp": "^4.0.2"
-  }
+  "dependencies": {}
 }
