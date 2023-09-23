@@ -33,3 +33,8 @@ export interface IComparerInputSettings {
   bgLink: string;
   fgLink: string;
 }
+
+export interface IComparerState {
+  background: boolean;
+  foreground: boolean;
+}

@@ -1,4 +1,4 @@
-import IComparer, { IComparerInputSettings } from "./IComparer";
+import IComparer, { IComparerInputSettings, IComparerState } from "./IComparer";
 
 /**
  * Class that generates a Comparer object
@@ -12,7 +12,7 @@ export default class Comparer implements IComparer {
   /**
    * Background/forefround state object. Track whether background or foreground is uploaded
    */
-  #state: { background: boolean; foreground: boolean } = {
+  #state: IComparerState = {
     background: false,
     foreground: false,
   };
