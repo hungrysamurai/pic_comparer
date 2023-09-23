@@ -1,348 +1,329 @@
-"use strict";
-
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
-function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
-function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
-function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
-var _id = /*#__PURE__*/new WeakMap();
-var _state = /*#__PURE__*/new WeakMap();
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var _Comparer_id, _Comparer_state;
 /**
  * Class that generates a Comparer object
  */
-var Comparer = /*#__PURE__*/function () {
-  /**
-   * Generates unique ID for Comparer Object
-   * @type {number}
-   */
-
-  /**
-   * Background/forefround state object. Track whether background or foreground is uploaded
-   * @type {{background: boolean, foreground: boolean}}
-   */
-
-  /**
-   *
-   * @param {HTMLElement} parentContainer - DOM elements that will contain a Comparer element as a child node
-   * @param {Object} ComparerInitOptions - object with options
-   * @param {boolean} [ComparerInitOptions.enableUpload] - if true creates upload buttons
-   * @param {boolean} [ComparerInitOptions.enableDragDrop] - if true creates upload drag and drop area
-   * @param {string} [ComparerInitOptions.bgLink] - link to background image
-   * @param {string} [ComparerInitOptions.fgLink] - link to foreground image
-   * @this Comparer
-   */
-  function Comparer(parentContainer, _ref) {
-    var enableUpload = _ref.enableUpload,
-      enableDragDrop = _ref.enableDragDrop,
-      bgLink = _ref.bgLink,
-      fgLink = _ref.fgLink;
-    _classCallCheck(this, Comparer);
-    _classPrivateFieldInitSpec(this, _id, {
-      writable: true,
-      value: Date.now() + Math.floor(Math.random() * 1000)
-    });
-    _classPrivateFieldInitSpec(this, _state, {
-      writable: true,
-      value: {
-        background: false,
-        foreground: false
-      }
-    });
+class Comparer {
     /**
-     * @property {HTMLElement} parentContainer - is parent DOM element for Comparer
+     *
+     * @param parentContainer - DOM elements that will contain a Comparer element as a child node
+     * @param ComparerInputSettings - object with options
+     * @param ComparerInputSettings.enableUpload - if true creates upload buttons
+     * @param ComparerInputSettings.enableDragDrop - if true creates upload drag and drop area
+     * @param ComparerInputSettings.bgLink - link to background image
+     * @param ComparerInputSettings.fgLink - link to foreground image
+     * @this Comparer
      */
-    this.parentContainer = parentContainer;
-
-    // Init DOM elements based on settings
-    this.initDOMElements(enableUpload, enableDragDrop);
-
-    // If links provided - load images
-    if (fgLink && bgLink) {
-      this.fgImage.style.backgroundImage = "url(".concat(fgLink, ")");
-      this.bgImage.style.backgroundImage = "url(".concat(bgLink, ")");
-      if (enableUpload) {
-        _classPrivateFieldGet(this, _state).background = true;
-        _classPrivateFieldGet(this, _state).foreground = true;
-        this.switchClass(this.uploadBtnBG, "empty", "full");
-        this.switchClass(this.uploadBtnFG, "empty", "full");
-      }
+    constructor(parentContainer, { enableUpload, enableDragDrop, bgLink, fgLink }) {
+        this.parentContainer = parentContainer;
+        /**
+         * Generates unique ID for Comparer Object
+         */
+        _Comparer_id.set(this, Date.now() + Math.floor(Math.random() * 1000));
+        /**
+         * Background/forefround state object. Track whether background or foreground is uploaded
+         */
+        _Comparer_state.set(this, {
+            background: false,
+            foreground: false,
+        });
+        this.comparerContainer = document.createElement("div");
+        this.bgImageContainer = document.createElement("div");
+        this.fgImageContainer = document.createElement("div");
+        this.rangeInput = document.createElement("input");
+        this.handler = document.createElement("div");
+        // Init DOM elements based on settings
+        this.initDOMElements(enableUpload, enableDragDrop);
+        // If links provided - load images
+        if (fgLink && bgLink) {
+            this.fgImageContainer.style.backgroundImage = `url(${fgLink})`;
+            this.bgImageContainer.style.backgroundImage = `url(${bgLink})`;
+            if (enableUpload &&
+                this.backgroundInputLabel &&
+                this.foregroundInputLabel) {
+                __classPrivateFieldGet(this, _Comparer_state, "f").background = true;
+                __classPrivateFieldGet(this, _Comparer_state, "f").foreground = true;
+                this.switchClass(this.backgroundInputLabel, "empty", "full");
+                this.switchClass(this.foregroundInputLabel, "empty", "full");
+            }
+        }
+        // Add events to DOM elements
+        this.addEvents();
     }
-
-    // Add events to DOM elements
-    this.addEvents(enableUpload, enableDragDrop);
-  }
-
-  /**
-   * @property {Function} initDOMElements - init Comparer in DOM
-   * @param {boolean} uploadArea - creates upload buttons if true
-   * @param {boolean} dropArea - creates drag and drop area if true
-   * @returns {void}
-   */
-  _createClass(Comparer, [{
-    key: "initDOMElements",
-    value: function initDOMElements(uploadArea, dropArea) {
-      var _this = this;
-      // Init Comparer  container
-      this.comparerContainer = document.createElement("div");
-      this.comparerContainer.classList.add("comparer-container");
-      this.comparerContainer.innerHTML = "\n        <div class=\"comparer-bg\"></div>\n        <div class=\"comparer-fg\"></div>\n\n        <input\n          type=\"range\"\n          step=\"0.01\"\n          value=\"50\"\n          id=\"comparer-range-".concat(_classPrivateFieldGet(this, _id), "\"\n          class=\"comparer-range\"\n          max=\"100\"\n          min=\"0\"\n        />\n\n        <div class=\"comparer-handler\"></div>\n    ");
-      this.range = this.comparerContainer.querySelector("#comparer-range-".concat(_classPrivateFieldGet(this, _id)));
-      this.fgImage = this.comparerContainer.querySelector(".comparer-fg");
-      this.bgImage = this.comparerContainer.querySelector(".comparer-bg");
-      this.handler = this.comparerContainer.querySelector(".comparer-handler");
-      this.parentContainer.appendChild(this.comparerContainer);
-
-      // Init upload Buttons
-      if (uploadArea) {
-        var uploadContainer = document.createElement("div");
-        uploadContainer.classList.add("comparer-upload-container");
-        uploadContainer.innerHTML = "\n        \n        <input\n          type=\"file\"\n          id=\"comparer-upload-".concat(_classPrivateFieldGet(this, _id), "-foreground\"\n          accept=\"image/jpeg, image/png, image/jpg\"\n          hidden\n        />\n        <input\n          type=\"file\"\n          id=\"comparer-upload-").concat(_classPrivateFieldGet(this, _id), "-background\"\n          accept=\"image/jpeg, image/png, image/jpg\"\n          hidden\n        />\n        <label\n          for=\"comparer-upload-").concat(_classPrivateFieldGet(this, _id), "-background\"\n          id=\"comparer-upload-btn-background-").concat(_classPrivateFieldGet(this, _id), "\"\n          class=\"comparer-btn empty\"\n          >Foreground</label\n        >\n        <label\n          for=\"comparer-upload-").concat(_classPrivateFieldGet(this, _id), "-foreground\"\n          id=\"comparer-upload-btn-foreground-").concat(_classPrivateFieldGet(this, _id), "\"\n          class=\"comparer-btn empty\"\n          >Background</label\n        >\n    ");
-        this.imageInputBackground = uploadContainer.querySelector("#comparer-upload-".concat(_classPrivateFieldGet(this, _id), "-background"));
-        this.imageInputForeground = uploadContainer.querySelector("#comparer-upload-".concat(_classPrivateFieldGet(this, _id), "-foreground"));
-        this.uploadBtnBG = uploadContainer.querySelector("#comparer-upload-btn-background-".concat(_classPrivateFieldGet(this, _id)));
-        this.uploadBtnFG = uploadContainer.querySelector("#comparer-upload-btn-foreground-".concat(_classPrivateFieldGet(this, _id)));
-        this.parentContainer.appendChild(uploadContainer);
-      }
-
-      // Add Drag'n'Drop area
-      if (dropArea) {
-        this.dropArea = document.createElement("div");
-        this.dropArea.classList.add("comparer-drop-area");
-        this.dropInner = document.createElement("div");
-        this.dropInner.classList.add("comparer-drop-inner");
-        this.dropInner.textContent = "Drop some images to compare";
-        this.dropArea.appendChild(this.dropInner);
-        this.parentContainer.appendChild(this.dropArea);
-
-        // Prevent defaults for drag events
-
-        ["dragenter", "dragover", "dragleave", "drop"].forEach(function (eventName) {
-          _this.dropArea.addEventListener(eventName, _this.preventDefaults);
-        });
-
-        // Highlight/unhighlight area
-
-        ["dragenter", "dragover"].forEach(function (eventName) {
-          _this.dropArea.addEventListener(eventName, function () {
-            _this.highlight(_this.dropArea);
-          });
-        });
-        ["dragleave", "drop"].forEach(function (eventName) {
-          _this.dropArea.addEventListener(eventName, function () {
-            _this.dropArea.addEventListener(eventName, function () {
-              _this.unhighlight(_this.dropArea);
+    /**
+     * @property {Function} initDOMElements - init Comparer in DOM
+     * @param  uploadArea - creates upload buttons if true
+     * @param  dropArea - creates drag and drop area if true
+     */
+    initDOMElements(createButtons, createDropArea) {
+        this.comparerContainer.classList.add("comparer-container");
+        this.bgImageContainer.classList.add("comparer-bg");
+        this.fgImageContainer.classList.add("comparer-fg");
+        this.rangeInput.setAttribute("type", "range");
+        this.rangeInput.setAttribute("step", "0.01");
+        this.rangeInput.setAttribute("value", "50");
+        this.rangeInput.setAttribute("id", `comparer-range-${__classPrivateFieldGet(this, _Comparer_id, "f")}`);
+        this.rangeInput.setAttribute("min", "0");
+        this.rangeInput.setAttribute("max", "100");
+        this.rangeInput.classList.add("comparer-range");
+        this.handler.classList.add("comparer-handler");
+        this.comparerContainer.append(this.bgImageContainer);
+        this.comparerContainer.append(this.fgImageContainer);
+        this.comparerContainer.append(this.rangeInput);
+        this.comparerContainer.append(this.handler);
+        this.parentContainer.appendChild(this.comparerContainer);
+        // Init upload Buttons
+        if (createButtons) {
+            this.uploadContainer = document.createElement("div");
+            this.uploadContainer.classList.add("comparer-upload-container");
+            this.foregroundInput = document.createElement("input");
+            this.foregroundInput.setAttribute("id", `comparer-upload-${__classPrivateFieldGet(this, _Comparer_id, "f")}-foreground`);
+            this.foregroundInput.setAttribute("type", "file");
+            this.foregroundInput.setAttribute("accept", "image/jpeg, image/png, image/jpg");
+            this.foregroundInput.hidden = true;
+            this.foregroundInputLabel = document.createElement("label");
+            this.foregroundInputLabel.setAttribute("id", `comparer-upload-btn-foreground-${__classPrivateFieldGet(this, _Comparer_id, "f")}`);
+            this.foregroundInputLabel.htmlFor = `comparer-upload-${__classPrivateFieldGet(this, _Comparer_id, "f")}-foreground`;
+            this.foregroundInputLabel.className = "comparer-btn empty";
+            this.foregroundInputLabel.textContent = "Foreground";
+            this.backgroundInput = document.createElement("input");
+            this.backgroundInput.setAttribute("id", `comparer-upload-${__classPrivateFieldGet(this, _Comparer_id, "f")}-background`);
+            this.backgroundInput.setAttribute("type", "file");
+            this.backgroundInput.setAttribute("accept", "image/jpeg, image/png, image/jpg");
+            this.backgroundInput.hidden = true;
+            this.backgroundInputLabel = document.createElement("label");
+            this.backgroundInputLabel.setAttribute("id", `comparer-upload-btn-background-${__classPrivateFieldGet(this, _Comparer_id, "f")}`);
+            this.backgroundInputLabel.htmlFor = `comparer-upload-${__classPrivateFieldGet(this, _Comparer_id, "f")}-background`;
+            this.backgroundInputLabel.className = "comparer-btn empty";
+            this.backgroundInputLabel.textContent = "Background";
+            this.uploadContainer.append(this.foregroundInput);
+            this.uploadContainer.append(this.backgroundInput);
+            this.uploadContainer.append(this.backgroundInputLabel);
+            this.uploadContainer.append(this.foregroundInputLabel);
+            this.parentContainer.appendChild(this.uploadContainer);
+        }
+        // Add Drag'n'Drop area
+        if (createDropArea) {
+            this.dropArea = document.createElement("div");
+            this.dropArea.classList.add("comparer-drop-area");
+            this.dropInner = document.createElement("div");
+            this.dropInner.classList.add("comparer-drop-inner");
+            this.dropInner.textContent = "Drop some images to compare";
+            this.dropArea.appendChild(this.dropInner);
+            this.parentContainer.appendChild(this.dropArea);
+            // Prevent defaults for drag events
+            ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+                var _a;
+                (_a = this.dropArea) === null || _a === void 0 ? void 0 : _a.addEventListener(eventName, this.preventDefaults);
             });
-          });
-        });
-      }
+            // Highlight/unhighlight area
+            ["dragenter", "dragover"].forEach((eventName) => {
+                var _a;
+                (_a = this.dropArea) === null || _a === void 0 ? void 0 : _a.addEventListener(eventName, () => {
+                    if (this.dropArea) {
+                        this.highlight(this.dropArea);
+                    }
+                });
+            });
+            ["dragleave", "drop"].forEach((eventName) => {
+                var _a;
+                (_a = this.dropArea) === null || _a === void 0 ? void 0 : _a.addEventListener(eventName, () => {
+                    if (this.dropArea) {
+                        this.unHighlight(this.dropArea);
+                    }
+                });
+            });
+        }
     }
-
     /**
      *
      * @property {Function} addEvents - adds events listeners to Compparer
-     * @param {boolean} buttons - if true - adds buttons events
-     * @param {boolean} dragDrop - if true adds upload area events
-     * @returns {void}
      */
-  }, {
-    key: "addEvents",
-    value: function addEvents(buttons, dragDrop) {
-      var _this2 = this;
-      // Drag-to-compare range
-      this.range.addEventListener("input", function (e) {
-        var position = e.target.value;
-        var px = Math.floor(parseInt(getComputedStyle(_this2.comparerContainer).width) / 100 * position);
-        _this2.handler.style.left = "".concat(position, "%");
-        _this2.fgImage.style.width = "".concat(px, "px");
-      });
-      this.range.addEventListener("mouseenter", function () {
-        _this2.handler.classList.add("active");
-      });
-      this.range.addEventListener("mouseleave", function () {
-        _this2.handler.classList.remove("active");
-      });
-      this.range.addEventListener("touchstart", function () {
-        _this2.handler.classList.add("active");
-      });
-      this.range.addEventListener("touchend", function () {
-        _this2.handler.classList.remove("active");
-      });
-      if (buttons) {
-        // Foreground image upload via button
-        this.imageInputBackground.addEventListener("input", function (e) {
-          // Check file type
-          if (!_this2.checkFile(e.target.files[0])) return;
-          _this2.switchClass(_this2.uploadBtnBG, "empty", "full");
-          _this2.generatePreview(_this2.fgImage, e.target.files[0]);
-          _classPrivateFieldGet(_this2, _state).foreground = true;
+    addEvents() {
+        // Drag-to-compare range
+        this.rangeInput.addEventListener("input", (e) => {
+            if (e.target instanceof HTMLInputElement) {
+                const position = Number(e.target.value);
+                const px = Math.floor((parseInt(getComputedStyle(this.comparerContainer).width) / 100) *
+                    position);
+                this.handler.style.left = `${position}%`;
+                this.fgImageContainer.style.width = `${px}px`;
+            }
         });
-
-        // Background image upload via button
-        this.imageInputForeground.addEventListener("input", function (e) {
-          // Check file type
-          if (!_this2.checkFile(e.target.files[0])) return;
-          _this2.switchClass(_this2.uploadBtnFG, "empty", "full");
-          _this2.generatePreview(_this2.bgImage, e.target.files[0], true);
-          _classPrivateFieldGet(_this2, _state).background = true;
+        this.rangeInput.addEventListener("mouseenter", () => {
+            this.handler.classList.add("active");
         });
-      }
-      // Drag'n'Drop area uploads
-      if (dragDrop) {
-        this.dropArea.addEventListener("drop", function (e) {
-          var dt = e.dataTransfer;
-          var files = dt.files;
-          if (files.length > 2) {
-            _this2.dropInner.textContent = "Please drop one or two images!";
-            return;
-          }
-          if (_toConsumableArray(files).map(function (file) {
-            if (!_this2.checkFile(file)) return false;
-            return true;
-          }).includes(false)) return;
-          _this2.handleFiles(files);
+        this.rangeInput.addEventListener("mouseleave", () => {
+            this.handler.classList.remove("active");
         });
-      }
+        this.rangeInput.addEventListener("touchstart", () => {
+            this.handler.classList.add("active");
+        });
+        this.rangeInput.addEventListener("touchend", () => {
+            this.handler.classList.remove("active");
+        });
+        if (this.foregroundInput && this.backgroundInput) {
+            // Foreground image upload via button
+            this.backgroundInput.addEventListener("input", (e) => {
+                if (e.target instanceof HTMLInputElement &&
+                    e.target.files &&
+                    this.backgroundInputLabel) {
+                    if (!this.checkFile(e.target.files[0]))
+                        return;
+                    // Check file type
+                    this.switchClass(this.backgroundInputLabel, "empty", "full");
+                    this.generatePreview(this.fgImageContainer, e.target.files[0]);
+                    __classPrivateFieldGet(this, _Comparer_state, "f").foreground = true;
+                }
+            });
+            // Background image upload via button
+            this.foregroundInput.addEventListener("input", (e) => {
+                if (e.target instanceof HTMLInputElement &&
+                    e.target.files &&
+                    this.foregroundInputLabel) {
+                    // Check file type
+                    if (!this.checkFile(e.target.files[0]))
+                        return;
+                    this.switchClass(this.foregroundInputLabel, "empty", "full");
+                    this.generatePreview(this.bgImageContainer, e.target.files[0], true);
+                    __classPrivateFieldGet(this, _Comparer_state, "f").background = true;
+                }
+            });
+        }
+        // Drag'n'Drop area uploads
+        if (this.dropArea) {
+            this.dropArea.addEventListener("drop", (e) => {
+                let dt = e.dataTransfer;
+                if (dt) {
+                    let files = dt.files;
+                    if (files.length > 2 && this.dropInner) {
+                        this.dropInner.textContent = "Please drop one or two images!";
+                        return;
+                    }
+                    if ([...files]
+                        .map((file) => {
+                        if (!this.checkFile(file))
+                            return false;
+                        return true;
+                    })
+                        .includes(false))
+                        return;
+                    this.handleFiles(files);
+                }
+            });
+        }
     }
-
     /**
      * @property {Function} generatePreview - displays uploaded image in DOM
-     * @param {HTMLElement} el - DOM element, background or foreground div
-     * @param {File} file - uploading file
-     * @param {boolean} background - if true - this is background element that sets aspect ratio for whole Comparer
-     * @returns {void}
+     * @param element - DOM element, background or foreground div
+     * @param file - uploading file
+     * @param background - if true - this is background element that sets aspect ratio for whole Comparer
      */
-  }, {
-    key: "generatePreview",
-    value: function generatePreview(el, file, background) {
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      // bind context to self
-      var self = this;
-      reader.onloadend = function () {
-        var img = new Image();
-        if (background) {
-          img.onload = function () {
-            var aspectRatio = img.width / img.height;
-            self.comparerContainer.style.aspectRatio = "".concat(aspectRatio, " / 1");
-          };
-        }
-        img.src = reader.result;
-        el.style.backgroundImage = "url(".concat(img.src, ")");
-      };
+    generatePreview(element, file, background) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        // bind context to self
+        const self = this;
+        reader.onloadend = function () {
+            let img = new Image();
+            if (background) {
+                img.onload = () => {
+                    const aspectRatio = img.width / img.height;
+                    self.comparerContainer.style.aspectRatio = `${aspectRatio} / 1`;
+                };
+            }
+            img.src = reader.result;
+            element.style.backgroundImage = `url(${img.src})`;
+        };
     }
-
     /**
      * @property {Function} switchClass - swap classes on element
-     * @param {HTMLElement} el - element on whitch class will be switched
-     * @param {string} class1 - class to remove
-     * @param {string} class2 - class to add
-     * @returns {void}
+     * @param el - element on whitch class will be switched
+     * @param  class1 - class to remove
+     * @param class2 - class to add
      */
-  }, {
-    key: "switchClass",
-    value: function switchClass(el, class1, class2) {
-      el.classList.remove(class1);
-      el.classList.add(class2);
+    switchClass(element, class1, class2) {
+        element.classList.remove(class1);
+        element.classList.add(class2);
     }
-
     /**
      * @property {Function} preventDefaults prevent default behaviour on DOM element
-     * @param {Object} e - event object that contains target element
-     * @returns {void}
+     * @param e - event object that contains target element
      */
-  }, {
-    key: "preventDefaults",
-    value: function preventDefaults(e) {
-      e.preventDefault();
-      e.stopPropagation();
+    preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
     }
-
     /**
      * @property {Function} highlight - adds class 'highlight' on provided element
-     * @param {HTMLElement} el - element
-     * @returns {void}
+     * @param el - element
      */
-  }, {
-    key: "highlight",
-    value: function highlight(el) {
-      el.classList.add("highlight");
+    highlight(element) {
+        element.classList.add("highlight");
     }
-
     /**
      * @property {Function} unhighlight -removes class 'highlight' from provided element
-     * @param {HTMLElement} el - element
-     * @returns {void}
+     * @param el - element
      */
-  }, {
-    key: "unhighlight",
-    value: function unhighlight(el) {
-      el.classList.remove("highlight");
+    unHighlight(element) {
+        element.classList.remove("highlight");
     }
-
     /**
      * @property {Function} handleFiles - recieves files from drop area and displays them in DOM
-     * @param {FileList} files - array-like list of files that comes from upload area
-     * @returns {void}
+     * @param files - array-like list of files that comes from upload area
      */
-  }, {
-    key: "handleFiles",
-    value: function handleFiles(files) {
-      var _this3 = this;
-      files = _toConsumableArray(files);
-      if (files.length === 2) {
-        files.forEach(function (file, index) {
-          if (index === 0) {
-            _this3.generatePreview(_this3.fgImage, file, false);
-          } else if (index === 1) {
-            _this3.generatePreview(_this3.bgImage, file, true);
-          }
-        });
-        this.switchClass(this.uploadBtnBG, "empty", "full");
-        this.switchClass(this.uploadBtnFG, "empty", "full");
-        _classPrivateFieldGet(this, _state).foreground = true;
-        _classPrivateFieldGet(this, _state).background = true;
-      } else if (files.length === 1) {
-        if (!_classPrivateFieldGet(this, _state).background && !_classPrivateFieldGet(this, _state).foreground) {
-          this.generatePreview(this.bgImage, files[0], true);
-          this.switchClass(this.uploadBtnFG, "empty", "full");
-          _classPrivateFieldGet(this, _state).background = true;
-        } else if (_classPrivateFieldGet(this, _state).background && !_classPrivateFieldGet(this, _state).foreground) {
-          this.generatePreview(this.fgImage, files[0]);
-          this.switchClass(this.uploadBtnBG, "empty", "full");
-          _classPrivateFieldGet(this, _state).foreground = true;
-        } else if (_classPrivateFieldGet(this, _state).background && _classPrivateFieldGet(this, _state).foreground) {
-          this.generatePreview(this.bgImage, files[0], true);
-        } else if (_classPrivateFieldGet(this, _state).foreground && !_classPrivateFieldGet(this, _state).background) {
-          this.generatePreview(this.bgImage, files[0], true);
+    handleFiles(files) {
+        const filesArray = [...files];
+        if (this.backgroundInputLabel && this.foregroundInputLabel) {
+            if (filesArray.length === 2) {
+                filesArray.forEach((file, index) => {
+                    if (index === 0) {
+                        this.generatePreview(this.fgImageContainer, file, false);
+                    }
+                    else if (index === 1) {
+                        this.generatePreview(this.bgImageContainer, file, true);
+                    }
+                });
+                this.switchClass(this.backgroundInputLabel, "empty", "full");
+                this.switchClass(this.foregroundInputLabel, "empty", "full");
+                __classPrivateFieldGet(this, _Comparer_state, "f").foreground = true;
+                __classPrivateFieldGet(this, _Comparer_state, "f").background = true;
+            }
+            else if (filesArray.length === 1) {
+                if (!__classPrivateFieldGet(this, _Comparer_state, "f").background && !__classPrivateFieldGet(this, _Comparer_state, "f").foreground) {
+                    this.generatePreview(this.bgImageContainer, files[0], true);
+                    this.switchClass(this.foregroundInputLabel, "empty", "full");
+                    __classPrivateFieldGet(this, _Comparer_state, "f").background = true;
+                }
+                else if (__classPrivateFieldGet(this, _Comparer_state, "f").background && !__classPrivateFieldGet(this, _Comparer_state, "f").foreground) {
+                    this.generatePreview(this.fgImageContainer, files[0]);
+                    this.switchClass(this.backgroundInputLabel, "empty", "full");
+                    __classPrivateFieldGet(this, _Comparer_state, "f").foreground = true;
+                }
+                else if (__classPrivateFieldGet(this, _Comparer_state, "f").background && __classPrivateFieldGet(this, _Comparer_state, "f").foreground) {
+                    this.generatePreview(this.bgImageContainer, files[0], true);
+                }
+                else if (__classPrivateFieldGet(this, _Comparer_state, "f").foreground && !__classPrivateFieldGet(this, _Comparer_state, "f").background) {
+                    this.generatePreview(this.bgImageContainer, files[0], true);
+                }
+            }
         }
-      }
     }
-
     /**
      * @property {Function} checkFile - checks if provided file is image
-     * @param {File} file - file to check
-     * @returns {boolean}
+     * @param file - file to check
      */
-  }, {
-    key: "checkFile",
-    value: function checkFile(file) {
-      if (!file) return false;
-      if (!file.type.startsWith("image/")) return false;
-      return true;
+    checkFile(file) {
+        if (!file)
+            return false;
+        if (!file.type.startsWith("image/"))
+            return false;
+        return true;
     }
-  }]);
-  return Comparer;
-}();
+}
+_Comparer_id = new WeakMap(), _Comparer_state = new WeakMap();
+export default Comparer;
