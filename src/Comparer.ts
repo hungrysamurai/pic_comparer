@@ -1,4 +1,4 @@
-import IComparer, { IComparerInputSettings, IComparerState } from "./IComparer";
+import IComparer, { IComparerInputSettings, IComparerState, IComparerExtraStyles, ElementsWithCustomStyles } from "./IComparer";
 
 /**
  * Class that generates a Comparer object
@@ -31,21 +31,26 @@ export default class Comparer implements IComparer {
   backgroundInputLabel?: HTMLLabelElement;
   dropArea?: HTMLDivElement;
   dropInner?: HTMLDivElement;
+  buttons?: [HTMLLabelElement, HTMLLabelElement]
 
   /**
    *
    * @param parentContainer - DOM elements that will contain a Comparer element as a child node
-   * @param ComparerInputSettings - object with options
-   * @param ComparerInputSettings.enableUpload - if true creates upload buttons
-   * @param ComparerInputSettings.enableDragDrop - if true creates upload drag and drop area
-   * @param ComparerInputSettings.bgLink - link to background image
-   * @param ComparerInputSettings.fgLink - link to foreground image
+   * @param comparerInputSettings - object with options
+   * @param comparerInputSettings.enableUpload - if true creates upload buttons
+   * @param comparerInputSettings.enableDragDrop - if true creates upload drag and drop area
+   * @param comparerInputSettings.bgLink - link to background image
+   * @param comparerInputSettings.fgLink - link to foreground image
+   * * @param extraStyles {('handler'|'comparerContainer'|'buttons')} - object with optional CSS properties for handler, container or buttons
    * @this Comparer
    */
   constructor(
     public parentContainer: HTMLElement,
-    { enableUpload, enableDragDrop, bgLink, fgLink }: IComparerInputSettings
+    comparerInputSettings: IComparerInputSettings,
+    extraStyles?: IComparerExtraStyles
   ) {
+    const { enableUpload, enableDragDrop, bgLink, fgLink } =
+      comparerInputSettings;
     // Init DOM elements based on settings
     this.initDOMElements(enableUpload, enableDragDrop);
 
@@ -67,6 +72,10 @@ export default class Comparer implements IComparer {
       }
     }
 
+    if (extraStyles) {
+      this.applyExtraStyles(extraStyles);
+    }
+
     // Add events to DOM elements
     this.addEvents();
   }
@@ -76,7 +85,7 @@ export default class Comparer implements IComparer {
    * @param  uploadArea - creates upload buttons if true
    * @param  dropArea - creates drag and drop area if true
    */
-  initDOMElements(createButtons?: boolean, createDropArea?: boolean): void {
+  initDOMElements(createButtons?: boolean, createDropArea?: boolean) {
     this.comparerContainer.classList.add("comparer-container");
 
     this.bgImageContainer.classList.add("comparer-bg");
@@ -121,9 +130,8 @@ export default class Comparer implements IComparer {
         "id",
         `comparer-upload-btn-foreground-${this.#id}`
       );
-      this.foregroundInputLabel.htmlFor = `comparer-upload-${
-        this.#id
-      }-foreground`;
+      this.foregroundInputLabel.htmlFor = `comparer-upload-${this.#id
+        }-foreground`;
       this.foregroundInputLabel.className = "comparer-btn empty";
       this.foregroundInputLabel.textContent = "Foreground";
 
@@ -144,9 +152,8 @@ export default class Comparer implements IComparer {
         "id",
         `comparer-upload-btn-background-${this.#id}`
       );
-      this.backgroundInputLabel.htmlFor = `comparer-upload-${
-        this.#id
-      }-background`;
+      this.backgroundInputLabel.htmlFor = `comparer-upload-${this.#id
+        }-background`;
       this.backgroundInputLabel.className = "comparer-btn empty";
       this.backgroundInputLabel.textContent = "Background";
 
@@ -156,6 +163,8 @@ export default class Comparer implements IComparer {
       this.uploadContainer.append(this.foregroundInputLabel);
 
       this.parentContainer.appendChild(this.uploadContainer);
+
+      this.buttons = [this.foregroundInputLabel, this.backgroundInputLabel];
     }
 
     // Add Drag'n'Drop area
@@ -198,6 +207,33 @@ export default class Comparer implements IComparer {
   }
 
   /**
+ *
+ * @property {Function} applyExtraStyles - apply provided styles to Comparer
+ */
+  applyExtraStyles(extraStyles: IComparerExtraStyles) {
+    Object.keys(extraStyles).forEach(prop => {
+
+      const target = this[prop as keyof IComparerExtraStyles];
+
+      if (target && prop in ElementsWithCustomStyles) {
+        if (Array.isArray(target)) {
+          target.forEach(label => {
+            Object.entries(extraStyles[prop as keyof object]).forEach(tuple => {
+              const [key, value] = tuple;
+              label.style[key as keyof object] = value as string;
+            })
+          })
+        } else {
+          Object.entries(extraStyles[prop as keyof object]).forEach(tuple => {
+            const [key, value] = tuple;
+            target.style[key as keyof object] = value as string;
+          })
+        }
+      }
+    })
+  }
+
+  /**
    *
    * @property {Function} addEvents - adds events listeners to Compparer
    */
@@ -208,7 +244,7 @@ export default class Comparer implements IComparer {
         const position: number = Number((<HTMLInputElement>e.target).value);
         const px: number = Math.floor(
           (parseInt(getComputedStyle(this.comparerContainer).width) / 100) *
-            position
+          position
         );
         this.handler.style.left = `${position}%`;
         this.fgImageContainer.style.width = `${px}px`;
@@ -401,3 +437,38 @@ export default class Comparer implements IComparer {
     return true;
   }
 }
+
+const comparer1 = new Comparer(
+  document.querySelector(".parent-container") as HTMLElement,
+  { enableDragDrop: true, enableUpload: true }
+);
+
+const comparer2 = new Comparer(
+  document.querySelector(".parent-container2") as HTMLElement,
+  {
+    bgLink:
+      "https://work.ekry.ru/wp-content/uploads/2021/02/person_2_1.jpg",
+    fgLink:
+      "https://work.ekry.ru/wp-content/uploads/2021/02/person_2.jpg",
+  }
+);
+
+const comparer3 = new Comparer(
+  document.querySelector(".parent-container3") as HTMLElement,
+  { enableDragDrop: false, enableUpload: true },
+  {
+    handler: {
+      width: "4px",
+      height: "16px",
+      borderRadius: "0",
+      boxShadow: "none",
+    },
+    buttons: {
+      boxShadow: "none",
+      padding: "12px",
+      borderRadius: "0",
+    },
+    comparerContainer: { boxShadow: "none", borderRadius: "0" },
+  }
+);
+

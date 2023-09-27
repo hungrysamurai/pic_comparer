@@ -2,9 +2,8 @@
   "name": "pic_comparer",
   "version": "1.0.0",
   "description": "Pictures comparer ganerator.",
-  "main": "src/comparer.js",
   "scripts": {
-    "bundle-js": "npx gulp js",
+    "compile-js": "npx gulp ts",
     "bundle-css": "npx gulp css",
     "doc": "jsdoc -c jsdoc.json"
   },
@@ -23,14 +22,12 @@
   },
   "homepage": "https://github.com/JacobFreeman/pic_comparer#readme",
   "devDependencies": {
-    "@babel/core": "^7.21.3",
-    "@babel/preset-env": "^7.20.2",
-    "gulp": "^4.0.2",
+    "browserify": "^17.0.0",
+    "gulp": "^4.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-cssnano": "^2.1.3",
-    "jsdoc": "^4.0.2"
-  },
-  "dependencies": {
-    "typescript": "^5.2.2"
+    "jsdoc": "^4.0.2",
+    "tsify": "^5.0.4",
+    "vinyl-source-stream": "^2.0.0"
   }
 }

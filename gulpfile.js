@@ -1,23 +1,32 @@
-var gulp = require("gulp");
-var babel = require("gulp-babel");
 var cssnano = require("gulp-cssnano");
-
-gulp.task("js", function () {
- return gulp.src("src/comparer.js")
-  .pipe(babel({
-   presets: ["@babel/preset-env"]
-  }))
-  .pipe(gulp.dest("dist"));
-});
+var gulp = require("gulp");
+var browserify = require("browserify");
+var source = require("vinyl-source-stream");
+var tsify = require("tsify");
 
 gulp.task("css", function () {
- return gulp.src("src/comparer.css")
-  .pipe(cssnano({
-   zindex: false,
-   discardComments: {
-    removeAll: true
-   }
-  }))
-  .pipe(gulp.dest("dist"));
+  return gulp.src("src/comparer.css")
+    .pipe(cssnano({
+      zindex: false,
+      discardComments: {
+        removeAll: true
+      }
+    }))
+    .pipe(gulp.dest("dist"));
 });
-
+gulp.task(
+  "default",
+  gulp.series(gulp.parallel("css"), function () {
+    return browserify({
+      basedir: ".",
+      debug: true,
+      entries: ["src/Comparer.ts"],
+      cache: {},
+      packageCache: {},
+    })
+      .plugin(tsify)
+      .bundle()
+      .pipe(source("Comparer.js"))
+      .pipe(gulp.dest("dist"));
+  })
+);

@@ -12,8 +12,10 @@ export default interface IComparer {
   backgroundInputLabel?: HTMLLabelElement;
   dropArea?: HTMLDivElement;
   dropInner?: HTMLDivElement;
+  buttons?: [HTMLLabelElement, HTMLLabelElement]
   initDOMElements: (createButtons: boolean, createDropArea: boolean) => void;
   addEvents: () => void;
+  applyExtraStyles: (extraStyles: IComparerExtraStyles) => void;
   generatePreview: (
     element: HTMLDivElement,
     file: File,
@@ -28,13 +30,31 @@ export default interface IComparer {
 }
 
 export interface IComparerInputSettings {
-  enableUpload: boolean;
-  enableDragDrop: boolean;
-  bgLink: string;
-  fgLink: string;
+  enableUpload?: boolean;
+  enableDragDrop?: boolean;
+  bgLink?: string;
+  fgLink?: string;
 }
 
 export interface IComparerState {
   background: boolean;
   foreground: boolean;
+}
+
+export enum ElementsWithCustomStyles {
+  handler = 'handler',
+  comparerContainer = 'comparerContainer',
+  buttons = 'buttons'
+}
+
+export interface IComparerExtraStyles {
+  handler?: {
+    [key: string]: string
+  },
+  comparerContainer?: {
+    [key: string]: string
+  },
+  buttons?: {
+    [key: string]: string
+  }
 }
