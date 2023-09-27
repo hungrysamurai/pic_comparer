@@ -1,5 +1,5 @@
 {
-  "name": "pic_comparer",
+  "name": "@hungrysamurai/pic_comparer",
   "version": "1.0.0",
   "description": "Pictures comparer ganerator.",
   "main": "dist/lib/commonjs/index.js",
@@ -7,6 +7,9 @@
   "files": [
     "/dist"
   ],
+   "publishConfig": {
+    "registry": "https://npm.pkg.github.com/hungrysamurai"
+  },
   "types": "dist/index.d.ts",
   "scripts": {
     "compile": "rm -rf dist/lib && tsc && tsc --build tsconfig.commonjs.json",
