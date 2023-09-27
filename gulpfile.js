@@ -20,13 +20,13 @@ gulp.task(
     return browserify({
       basedir: ".",
       debug: true,
-      entries: ["src/Comparer.ts"],
+      entries: ["src/index.ts"],
       cache: {},
       packageCache: {},
     })
       .plugin(tsify)
       .bundle()
-      .pipe(source("Comparer.js"))
+      .pipe(source("index.js"))
       .pipe(gulp.dest("dist"));
   })
 );
