@@ -3,7 +3,7 @@ import IComparer, { IComparerInputSettings, IComparerState, IComparerExtraStyles
 /**
  * Class that generates a Comparer object
  */
-export default class Comparer implements IComparer {
+export class Comparer implements IComparer {
   /**
    * Generates unique ID for Comparer Object
    */
