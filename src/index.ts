@@ -1,1 +1,1 @@
-export { Comparer } from './Comparer';
+export { Comparer } from './Comparer.js';

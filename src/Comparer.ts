@@ -1,4 +1,4 @@
-import IComparer, { IComparerInputSettings, IComparerState, IComparerExtraStyles, ElementsWithCustomStyles } from "./IComparer";
+import IComparer, { IComparerInputSettings, IComparerState, IComparerExtraStyles, ElementsWithCustomStyles } from "./IComparer.js";
 
 /**
  * Class that generates a Comparer object
@@ -67,8 +67,8 @@ export class Comparer implements IComparer {
         this.#state.background = true;
         this.#state.foreground = true;
 
-        this.switchClass(this.backgroundInputLabel, "empty", "full");
-        this.switchClass(this.foregroundInputLabel, "empty", "full");
+        this.activateEl(this.backgroundInputLabel);
+        this.activateEl(this.foregroundInputLabel);
       }
     }
 
@@ -132,7 +132,7 @@ export class Comparer implements IComparer {
       );
       this.foregroundInputLabel.htmlFor = `comparer-upload-${this.#id
         }-foreground`;
-      this.foregroundInputLabel.className = "comparer-btn empty";
+      this.foregroundInputLabel.className = "comparer-btn";
       this.foregroundInputLabel.textContent = "Foreground";
 
       this.backgroundInput = document.createElement("input");
@@ -154,13 +154,13 @@ export class Comparer implements IComparer {
       );
       this.backgroundInputLabel.htmlFor = `comparer-upload-${this.#id
         }-background`;
-      this.backgroundInputLabel.className = "comparer-btn empty";
+      this.backgroundInputLabel.className = "comparer-btn";
       this.backgroundInputLabel.textContent = "Background";
 
       this.uploadContainer.append(this.foregroundInput);
       this.uploadContainer.append(this.backgroundInput);
-      this.uploadContainer.append(this.backgroundInputLabel);
       this.uploadContainer.append(this.foregroundInputLabel);
+      this.uploadContainer.append(this.backgroundInputLabel);
 
       this.parentContainer.appendChild(this.uploadContainer);
 
@@ -238,6 +238,7 @@ export class Comparer implements IComparer {
    * @property {Function} addEvents - adds events listeners to Compparer
    */
   addEvents() {
+
     // Drag-to-compare range
     this.rangeInput.addEventListener("input", (e) => {
       if (e.target instanceof HTMLInputElement) {
@@ -275,11 +276,12 @@ export class Comparer implements IComparer {
           e.target.files &&
           this.backgroundInputLabel
         ) {
-          if (!this.checkFile(e.target.files[0])) return;
           // Check file type
+          if (!this.checkFile(e.target.files[0])) return;
 
-          this.switchClass(this.backgroundInputLabel, "empty", "full");
-          this.generatePreview(this.fgImageContainer, e.target.files[0]);
+          this.activateEl(this.backgroundInputLabel);
+          this.generatePreview(this.bgImageContainer, e.target.files[0], true);
+
           this.#state.foreground = true;
         }
       });
@@ -293,8 +295,8 @@ export class Comparer implements IComparer {
         ) {
           // Check file type
           if (!this.checkFile(e.target.files[0])) return;
-          this.switchClass(this.foregroundInputLabel, "empty", "full");
-          this.generatePreview(this.bgImageContainer, e.target.files[0], true);
+          this.activateEl(this.foregroundInputLabel);
+          this.generatePreview(this.fgImageContainer, e.target.files[0]);
           this.#state.background = true;
         }
       });
@@ -311,7 +313,7 @@ export class Comparer implements IComparer {
             return;
           }
           if (
-            [...files]
+            Array.from(files)
               .map((file) => {
                 if (!this.checkFile(file)) return false;
                 return true;
@@ -354,14 +356,11 @@ export class Comparer implements IComparer {
   }
 
   /**
-   * @property {Function} switchClass - swap classes on element
-   * @param el - element on whitch class will be switched
-   * @param  class1 - class to remove
-   * @param class2 - class to add
+   * @property {Function} activateEl - add active class on element
+   * @param el - element on whitch class will be added
    */
-  switchClass(element: HTMLElement, class1: string, class2: string) {
-    element.classList.remove(class1);
-    element.classList.add(class2);
+  activateEl(element: HTMLElement) {
+    element.classList.add('full');
   }
 
   /**
@@ -394,35 +393,44 @@ export class Comparer implements IComparer {
    * @param files - array-like list of files that comes from upload area
    */
   handleFiles(files: FileList) {
-    const filesArray: Array<File> = [...files];
+    const filesArray: Array<File> = Array.from(files);
 
-    if (this.backgroundInputLabel && this.foregroundInputLabel) {
-      if (filesArray.length === 2) {
-        filesArray.forEach((file, index) => {
-          if (index === 0) {
-            this.generatePreview(this.fgImageContainer, file, false);
-          } else if (index === 1) {
-            this.generatePreview(this.bgImageContainer, file, true);
-          }
-        });
-        this.switchClass(this.backgroundInputLabel, "empty", "full");
-        this.switchClass(this.foregroundInputLabel, "empty", "full");
-        this.#state.foreground = true;
-        this.#state.background = true;
-      } else if (filesArray.length === 1) {
-        if (!this.#state.background && !this.#state.foreground) {
-          this.generatePreview(this.bgImageContainer, files[0], true);
-          this.switchClass(this.foregroundInputLabel, "empty", "full");
-          this.#state.background = true;
-        } else if (this.#state.background && !this.#state.foreground) {
-          this.generatePreview(this.fgImageContainer, files[0]);
-          this.switchClass(this.backgroundInputLabel, "empty", "full");
-          this.#state.foreground = true;
-        } else if (this.#state.background && this.#state.foreground) {
-          this.generatePreview(this.bgImageContainer, files[0], true);
-        } else if (this.#state.foreground && !this.#state.background) {
-          this.generatePreview(this.bgImageContainer, files[0], true);
+    if (filesArray.length === 2) {
+      filesArray.forEach((file, index) => {
+        if (index === 0) {
+          this.generatePreview(this.fgImageContainer, file, false);
+        } else if (index === 1) {
+          this.generatePreview(this.bgImageContainer, file, true);
         }
+      });
+      if (this.backgroundInputLabel && this.foregroundInputLabel) {
+        this.activateEl(this.backgroundInputLabel);
+        this.activateEl(this.foregroundInputLabel);
+      }
+      this.#state.foreground = true;
+      this.#state.background = true;
+
+    } else if (filesArray.length === 1) {
+
+      if (!this.#state.background && !this.#state.foreground) {
+        this.generatePreview(this.bgImageContainer, files[0], true);
+        if (this.backgroundInputLabel) {
+          this.activateEl(this.backgroundInputLabel);
+        }
+        this.#state.background = true;
+
+      } else if (this.#state.background && !this.#state.foreground) {
+        this.generatePreview(this.fgImageContainer, files[0]);
+
+        if (this.foregroundInputLabel) {
+          this.activateEl(this.foregroundInputLabel);
+        }
+
+        this.#state.foreground = true;
+      } else if (this.#state.background && this.#state.foreground) {
+        this.generatePreview(this.bgImageContainer, files[0], true);
+      } else if (this.#state.foreground && !this.#state.background) {
+        this.generatePreview(this.bgImageContainer, files[0], true);
       }
     }
   }

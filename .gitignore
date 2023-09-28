@@ -1,6 +1,7 @@
-/node_modules
-/docs
-/dist/lib
+node_modules
+docs
+dist
 jsdoc.json
 .vscode
 index.html
+test

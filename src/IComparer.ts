@@ -21,7 +21,7 @@ export default interface IComparer {
     file: File,
     background?: boolean
   ) => void;
-  switchClass: (element: HTMLElement, class1: string, class2: string) => void;
+  activateEl: (element: HTMLElement) => void;
   preventDefaults: (e: Event) => void;
   highlight: (element: HTMLElement) => void;
   unHighlight: (element: HTMLElement) => void;
@@ -57,4 +57,9 @@ export interface IComparerExtraStyles {
   buttons?: {
     [key: string]: string
   }
+}
+
+export enum ButtonsClassNames {
+  empty = 'empty',
+  full = 'full'
 }

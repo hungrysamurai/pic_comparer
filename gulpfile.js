@@ -14,9 +14,22 @@ gulp.task("css", function () {
     }))
     .pipe(gulp.dest("dist"));
 });
+
+gulp.task("csstest", function () {
+  return gulp.src("src/comparer.css")
+    .pipe(cssnano({
+      zindex: false,
+      discardComments: {
+        removeAll: true
+      }
+    }))
+    .pipe(gulp.dest("test"));
+});
+
+
 gulp.task(
   "default",
-  gulp.series(gulp.parallel("css"), function () {
+  gulp.series(gulp.parallel("csstest"), function () {
     return browserify({
       basedir: ".",
       debug: true,
@@ -27,6 +40,6 @@ gulp.task(
       .plugin(tsify)
       .bundle()
       .pipe(source("index.js"))
-      .pipe(gulp.dest("dist"));
+      .pipe(gulp.dest("test/dist"));
   })
 );

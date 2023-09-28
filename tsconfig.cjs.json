@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "ES2015",
     "declaration": true,
-    "outDir": "./dist/lib/commonjs",
+    "outDir": "./dist/cjs",
     "moduleResolution": "node",
     "lib": ["ES5","ES6","ES2020", "DOM","dom.iterable"], 
   },
