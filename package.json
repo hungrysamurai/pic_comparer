@@ -1,6 +1,6 @@
 {
   "name": "@hungrysamurai/pic_comparer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Pictures comparer ganerator.",
   "main": "dist/cjs/index.js",
   "module":"dist/esm/index.js",

@@ -30,8 +30,8 @@ export default interface IComparer {
 }
 
 export interface IComparerInputSettings {
-  enableUpload?: boolean;
-  enableDragDrop?: boolean;
+  enableUpload: boolean;
+  enableDragDrop: boolean;
   bgLink?: string;
   fgLink?: string;
 }
