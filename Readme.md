@@ -10,7 +10,7 @@ The `Comparer` class generates a visual comparison tool for two images. It provi
 
 ### Installation
 
-First, make sure to include the `IComparer.js` module in your project, which contains the necessary interfaces and types for the `Comparer` class. After that, you can use the `Comparer` class as follows:
+First, make sure to include the `Comparer` module in your project. After that, you can use the `Comparer` class as follows:
 
     import { Comparer } from "./Comparer.js";
 
