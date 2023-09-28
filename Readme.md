@@ -10,6 +10,8 @@ The `Comparer` class generates a visual comparison tool for two images. It provi
 
 ### Installation
 
+    npm i @hungrysamurai/pic_comparer
+
 First, make sure to include the `Comparer` module in your project. After that, you can use the `Comparer` class as follows:
 
     import { Comparer } from "./Comparer.js";
