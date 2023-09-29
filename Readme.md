@@ -27,8 +27,25 @@ First, make sure to include the `Comparer` module in your project. After that, y
       fgLink: "foreground.jpg",  // Link to the foreground image (optional)
     };
 
+    // Custom styles
+    const comparerCustomStyles = {
+      comparerContainer: {
+        borderRadius: '0px',
+        boxShadow: 'none',
+        border: '2px solid #000'
+      },
+      buttons: {
+        padding: '24px 12px',
+        backgroundColor: 'gray'
+      },
+      handler: {
+        width: '17px',
+        height: '100px'
+      }
+    }
+
     // Create a new Comparer instance
-    const comparer = new Comparer(parentContainer, comparerInputSettings);`
+    const comparer = new Comparer(parentContainer, comparerInputSettings, comparerCustomStyles);`
 
 ### Initialization
 
@@ -40,6 +57,10 @@ To initialize a `Comparer` instance, provide the following parameters:
   - `enableDragDrop` (optional): If `true`, creates a drag-and-drop area for image uploads.
   - `bgLink`: Link to the background image.
   - `fgLink`: Link to the foreground image.
+  - `comparerCustomStyles`: An object with the following properties:
+  - `comparerContainer` (optional): custom styles for comparer container.
+  - `buttons` (optional): custom styles for upload buttons.
+  - `handler` (optional): custom styles for slider handler.
 
 ### Optional Features
 
