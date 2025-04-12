@@ -3,22 +3,24 @@
   "version": "1.1.0",
   "description": "Pictures comparer ganerator.",
   "main": "dist/cjs/index.js",
-  "module":"dist/esm/index.js",
+  "module": "dist/esm/index.js",
   "files": [
     "/dist"
   ],
-   "publishConfig": {
+  "publishConfig": {
     "registry": "https://npm.pkg.github.com/hungrysamurai"
   },
   "types": "dist/index.d.ts",
   "scripts": {
-    "compile": "rm -rf dist/lib && tsc && tsc --build tsconfig.cjs.json && gulp css",
+    "compile": "tsc && tsc --build tsconfig.cjs.json && gulp css",
     "doc": "jsdoc -c jsdoc.json",
-    "test":"rm -rf test/dist && tsc --outDir test/dist --declaration false --sourceMap false --module ES2015 && gulp csstest"
+    "build": "rm -rf build/dist && tsc --outDir build/dist --declaration false --sourceMap false --module ES2015 && gulp cssbuild",
+    "deploy": "pnpm run build && pnpm run copy",
+    "copy": "node ../../_scripts/copyFiles.js ./build ../../server/dist/public/projects/pic_comparer"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JacobFreeman/pic_comparer.git"
+    "url": "git+https://github.com/hungrysamurai/pic_comparer.git"
   },
   "keywords": [
     "pictures",
@@ -27,9 +29,9 @@
   "author": "hungrysamurai",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JacobFreeman/pic_comparer/issues"
+    "url": "https://github.com/hungrysamurai/pic_comparer/issues"
   },
-  "homepage": "https://github.com/JacobFreeman/pic_comparer#readme",
+  "homepage": "https://github.com/hungrysamurai/pic_comparer#readme",
   "devDependencies": {
     "browserify": "^17.0.0",
     "gulp": "^4.0.0",

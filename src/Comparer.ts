@@ -268,6 +268,77 @@ export class Comparer implements IComparer {
       this.handler.classList.remove("active");
     });
 
+    // Добавляем функционал drag and drop на контейнер с изображениями
+    // Предотвращаем стандартное поведение для событий перетаскивания
+    ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+      this.comparerContainer.addEventListener(eventName, this.preventDefaults);
+    });
+
+    // Обработка перетаскивания над контейнером
+    this.comparerContainer.addEventListener("dragover", (e) => {
+      // Определяем, куда перетаскивается файл
+      const rect = this.comparerContainer.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const containerWidth = this.comparerContainer.offsetWidth;
+      const rangeValue = parseFloat(this.rangeInput.value);
+      const splitPosition = (containerWidth / 100) * rangeValue;
+
+      // Убираем все классы подсветки сначала
+      this.fgImageContainer.classList.remove("highlight");
+      this.bgImageContainer.classList.remove("highlight");
+
+      // Подсвечиваем соответствующую половину
+      if (mouseX < splitPosition) {
+        // Левая часть (foreground)
+        this.fgImageContainer.classList.add("highlight");
+      } else {
+        // Правая часть (background)
+        this.bgImageContainer.classList.add("highlight");
+      }
+    });
+
+    // Убираем подсветку при выходе за пределы контейнера
+    this.comparerContainer.addEventListener("dragleave", () => {
+      this.fgImageContainer.classList.remove("highlight");
+      this.bgImageContainer.classList.remove("highlight");
+    });
+
+    // Обрабатываем сброс файла на контейнер
+    this.comparerContainer.addEventListener("drop", (e) => {
+      // Убираем подсветку
+      this.fgImageContainer.classList.remove("highlight");
+      this.bgImageContainer.classList.remove("highlight");
+
+      let dt = e.dataTransfer;
+      if (dt && dt.files.length > 0) {
+        // Проверяем файл
+        if (!this.checkFile(dt.files[0])) return;
+
+        // Определяем, куда был сброшен файл
+        const rect = this.comparerContainer.getBoundingClientRect();
+        const dropX = e.clientX - rect.left;
+        const containerWidth = this.comparerContainer.offsetWidth;
+        const rangeValue = parseFloat(this.rangeInput.value);
+        const splitPosition = (containerWidth / 100) * rangeValue;
+
+        if (dropX < splitPosition) {
+          // Если сброшено в левой части (foreground)
+          this.generatePreview(this.fgImageContainer, dt.files[0]);
+          if (this.foregroundInputLabel) {
+            this.activateEl(this.foregroundInputLabel);
+          }
+          this.#state.foreground = true;
+        } else {
+          // Если сброшено в правой части (background)
+          this.generatePreview(this.bgImageContainer, dt.files[0], true);
+          if (this.backgroundInputLabel) {
+            this.activateEl(this.backgroundInputLabel);
+          }
+          this.#state.background = true;
+        }
+      }
+    });
+
     if (this.foregroundInput && this.backgroundInput) {
       // Foreground image upload via button
       this.backgroundInput.addEventListener("input", (e) => {

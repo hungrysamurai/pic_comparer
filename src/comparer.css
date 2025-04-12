@@ -41,6 +41,12 @@
   height: 100%;
 }
 
+.comparer-bg.highlight,
+.comparer-fg.highlight {
+  box-shadow: inset 0 0 0 1rem rgb(5, 218, 136);
+  border: none;
+}
+
 /* Slider */
 .comparer-range {
   opacity: 0;
